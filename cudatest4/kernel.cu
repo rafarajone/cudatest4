@@ -20,11 +20,7 @@
 #include "Window.h"
 #include "Renderer.h"
 
-
 using namespace std;
-
-vec3 eye = { 0.0f, 0.0f, -5.0f };
-vec3 rotation = { 0.0f, 0.0f, 0.0f };
 
 __global__ void getRays(int width, int height, float* a) {
 	int i = threadIdx.x + blockIdx.x * blockDim.x;
@@ -54,7 +50,7 @@ __global__ void raymarch(vec3 eye, vec3 rotation, const float* a, char* b) {
 	__shared__ float EPSILON;
 
 	if (threadIdx.x == 0) {
-		MAX_RAY_STEPS = 100;
+		MAX_RAY_STEPS = 40;
 		MAX_DIST = 10000;
 		EPSILON = 0.0001f;
 	}
@@ -92,82 +88,21 @@ __global__ void raymarch(vec3 eye, vec3 rotation, const float* a, char* b) {
 	b[i] = ' ';
 }
 
-void Renderer::init() {
-	const int numberOfBlocks = window.width;
-	const int numberOfThreads = window.height;
-
-	const size_t raysS = window.size * 3;
-	const size_t raysSB = raysS * sizeof(float);
-	cudaMalloc(&d_rays, raysSB);
-
-	getRays << <numberOfBlocks, numberOfThreads >> > (window.width, window.height, d_rays);
-	cudaDeviceSynchronize();
-
-	char_bufferSB = window.size * sizeof(char);
-	cudaMalloc(&d_char_buffer, char_bufferSB);
-}
-
-void Renderer::render() {
-	auto time1 = chrono::high_resolution_clock::now();
-
-	float speed = 0.1f;
-
-	if (GetAsyncKeyState('W')) {
-		eye.x += speed * sin(rotation.y);
-		eye.z += speed * cos(rotation.y);
-	}
-
-	if (GetAsyncKeyState('S')) {
-		eye.x += -speed * sin(rotation.y);
-		eye.z += -speed * cos(rotation.y);
-	}
-
-	if (GetAsyncKeyState('A')) {
-		eye.x += -speed * cos(rotation.y);
-		eye.z += speed * sin(rotation.y);
-	}
-
-	if (GetAsyncKeyState('D')) {
-		eye.x += speed * cos(rotation.y);
-		eye.z += -speed * sin(rotation.y);
-	}
-
-	if (GetAsyncKeyState(VK_SHIFT)) {
-		eye.y -= speed;
-	}
-
-	if (GetAsyncKeyState(VK_CONTROL)) {
-		eye.y += speed;
-	}
-
-	if (GetAsyncKeyState(VK_LEFT)) {
-		rotation.y -= 0.05f;
-	}
-
-	if (GetAsyncKeyState(VK_RIGHT)) {
-		rotation.y += 0.05f;
-	}
-
-	raymarch <<<numberOfBlocks, numberOfThreads>>> (eye, rotation, d_rays, d_char_buffer);
-	cudaDeviceSynchronize();
-
-	cudaMemcpy(window.char_buffer, d_char_buffer, char_bufferSB, cudaMemcpyDeviceToHost);
-
-	auto time2 = chrono::high_resolution_clock::now();
-	long long delta = (time2 - time1).count();
-	AFPS = SECOND / (float)delta;
-	this_thread::sleep_for(chrono::nanoseconds(FRAME - delta));
-}
-
 int main() {
 	
-	Window window(100, 100);
+	Window window(120, 120);
 	Renderer renderer(window);
 	renderer.init();
+	string repdelta;
 	while (true) {
+
 		renderer.render();
 		window.drawString(to_string(renderer.AFPS), 1, 1);
+		window.drawString(repdelta, 1, 4);
+		auto reptime1 = chrono::high_resolution_clock::now();
 		window.repaint();
+		auto reptime2 = chrono::high_resolution_clock::now();
+		repdelta = to_string((reptime2 - reptime1).count());
 	}
 
 	//system("pause");

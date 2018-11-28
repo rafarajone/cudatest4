@@ -9,9 +9,11 @@
 
 #include "Window.h"
 #include "vec3.h"
+#include "mat3.h"
 #include "kernel.h"
 
 struct Renderer {
+	Window window;
 
 	const long long SECOND = 1000000000;
 	const long long FPS = 60;
@@ -26,7 +28,9 @@ struct Renderer {
 	char *d_color_buffer;
 	float *d_rays;
 
-	Window window;
+	vec3 eye = { 0.0f, 0.0f, -5.0f };
+	vec3 rotation = { 0.0f, 0.0f, 0.0f };
+
 	Renderer(Window window);
 
 	void init();

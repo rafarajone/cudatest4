@@ -9,5 +9,6 @@
 
 __global__ void getRays(int width, int height, float* a);
 
-__global__ void raymarch(vec3 eye, vec3 rotation, const float* a, char* b);
+__device__ float sphereSDF(const vec3 &p, float r);
 
+__global__ void raymarch(vec3 eye, vec3 rotation, const float* a, char* b);

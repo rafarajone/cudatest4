@@ -9,7 +9,7 @@ using namespace std;
 
 class Window {
 public:
-	SHORT width, height;
+	int width, height;
 	int size;
 
 	char* char_buffer;
@@ -17,7 +17,7 @@ public:
 
 	HANDLE hOut;
 
-	Window(SHORT width, SHORT height);
+	Window(int width, int height);
 	
 	void repaint();
 	void drawString(string text, int x, int y);

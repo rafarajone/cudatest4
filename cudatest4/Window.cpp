@@ -1,7 +1,7 @@
 
 #include "Window.h"
 
-Window::Window(SHORT width, SHORT height) : width(width), height(height){
+Window::Window(int width, int height) : width(width), height(height){
 	size = width * height;
 
 	char_buffer = new char[size];
@@ -21,7 +21,7 @@ Window::Window(SHORT width, SHORT height) : width(width), height(height){
 	SetCurrentConsoleFontEx(hOut, false, &cfi);
 	*/
 
-	SetConsoleScreenBufferSize(hOut, { width, height });
+	SetConsoleScreenBufferSize(hOut, { (short)width, (short)height });
 	SetConsoleActiveScreenBuffer(hOut);
 	//SMALL_RECT windowSize = { 0, 0, width, height };
 	//SetConsoleWindowInfo(hOut, TRUE, &windowSize);
