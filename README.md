@@ -1,7 +1,7 @@
 # cudatest4
 SET IN CMD
 
-Properties:<br>
+1. Properties:<br>
 	- Font:<br>
 		- Font: Raster Fonts<br>
 		- Size: 8x8<br>
