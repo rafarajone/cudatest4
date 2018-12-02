@@ -1,16 +1,11 @@
 #pragma once
 
-#include <cuda.h>
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-
 #include <thread>
 #include <chrono>
 
 #include "Window.h"
 #include "vec3.h"
 #include "mat3.h"
-#include "kernel.h"
 
 struct Renderer {
 	Window window;
