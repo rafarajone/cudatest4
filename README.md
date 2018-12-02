@@ -1,11 +1,11 @@
 # cudatest4
 SET IN CMD
 
-1. Properties:<br>
-	- Font:<br>
+Properties:<br>
+	1. Font:<br>
 		- Font: Raster Fonts<br>
 		- Size: 8x8<br>
-	- Layout:<br>
+	2. Layout:<br>
 		- Screen Buffer Size:<br> 
 			- Width: 120<br>
 			- Height: 120<br>
