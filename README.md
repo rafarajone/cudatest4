@@ -2,13 +2,13 @@
 SET IN CMD
 
 Properties:<br>
-	Font:<br>
-		Font: Raster Fonts<br>
-		Size: 8x8<br>
-	Layout:<br>
-		Screen Buffer Size:<br> 
-			Width: 120<br>
-			Height: 120<br>
-		Window Size: <br>
-			Width: 120<br>
-			Height: 120<br>
+	-Font:<br>
+		-Font: Raster Fonts<br>
+		-Size: 8x8<br>
+	-Layout:<br>
+		-Screen Buffer Size:<br> 
+			-Width: 120<br>
+			-Height: 120<br>
+		-Window Size: <br>
+			-Width: 120<br>
+			-Height: 120<br>
